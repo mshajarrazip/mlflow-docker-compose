@@ -7,6 +7,7 @@ Simple mlflow deployment with docker-compose, backend store and artifact store o
 Simply do:
 
 ```
+git checkout basic-scenario3
 docker-compose up -d --build
 ```
 
