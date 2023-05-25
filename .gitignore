@@ -1,0 +1,10 @@
+# ignore everything
+*
+
+# but not these files
+!mlflow/
+!.env
+!.gitignore
+!docker-compose.yml
+!pyproject.toml
+!README.md
