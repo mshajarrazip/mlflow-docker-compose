@@ -1,0 +1,18 @@
+services:
+  db:
+    image: db
+    build:
+      context: ./db
+      dockerfile: db.dockerfile
+      args:
+        MSSQL_SA_PASSWORD: ${DB_PASSWORD:-Password123}
+    environment:
+      - DB_NAME=${DB_NAME:-mlflow}
+    command: ./entrypoints.sh
+    ports:
+      - "1433:1433"
+    volumes:
+      - app-db-data:/var/opt/mssql/data
+
+volumes:
+  app-db-data:
