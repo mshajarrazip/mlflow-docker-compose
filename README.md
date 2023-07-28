@@ -2,7 +2,7 @@
 
 ## [Scenario 3: MLFlow on localhost with Tracking Server](https://www.mlflow.org/docs/latest/tracking.html#scenario-3-mlflow-on-localhost-with-tracking-server)
 
-Simple mlflow deployment with docker-compose, backend store and artifact store on local storage.
+### Simple mlflow deployment with docker-compose, backend store and artifact store on local storage.
 
 Simply do:
 
@@ -19,6 +19,34 @@ need to appropriately set the permissions.
 > the server will respond with the store locations based on what's set in the container. If the values
 > are different, then the client will end up assuming that the container-relative paths are available
 > on the host, which will cause permission errors.
+
+### MSSQL Server as Backend URI (Currently on Main)
+
+To spin up an mssql container and have the backend URI point to the `mlflow` database on this server do:
+
+```
+git checkout basic-scenario3+mssql
+docker-compose up -d --build
+```
+
+To access the mssql server running inside the container, use an SQL client software like [DBeaver](https://dbeaver.io/)
+or [ssms](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+with the following configurations:
+
+|||
+|-|-|
+|Host|`localhost`|
+|Port|`1433`|
+|Authentication|`SQL Server Authentication`|
+|Username|`sa`|
+|Password|`Password123`|
+
+If you don't want to spin up the mssql container and want a customized backend URI, set the variable `MLFLOW_BACKEND_URI`, then:
+
+```
+docker-compose up -d --build docker-compose.yml
+```
+
 
 ## References
 
