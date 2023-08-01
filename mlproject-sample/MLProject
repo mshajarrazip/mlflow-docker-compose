@@ -1,0 +1,5 @@
+name: Sample MLProject
+
+entry_points:
+  main:
+    command: "python main.py"

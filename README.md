@@ -44,9 +44,17 @@ with the following configurations:
 If you don't want to spin up the mssql container and want a customized backend URI, set the variable `MLFLOW_BACKEND_URI`, then:
 
 ```
-docker-compose up -d --build docker-compose.yml
+docker-compose up -d --build -f docker-compose.yml
 ```
 
+## Additional Notes
+
+1. After setting up the server, feel free to test it by using the [MLProject sample](mlproject-sample). If you are using
+a database-backed backend, you may also try the model registry.
+2. Managing permissions for the artifact location:
+    ```
+    sudo chmod -R ugo=rwx ~/mnt/mlruns
+    ```
 
 ## References
 

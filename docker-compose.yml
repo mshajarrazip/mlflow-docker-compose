@@ -7,8 +7,7 @@ services:
     deploy:
       replicas: 0
 
-  web:
-    restart: always
+  tracking-server:
     depends_on:
       - base-ubuntu-python
     build:
@@ -20,7 +19,7 @@ services:
     image: mlflow_server
     container_name: mlflow_server
     ports:
-      - "${MLFLOW_PORT:-5050}:5000"
+      - "${MLFLOW_PORT:-5000}:5000"
     volumes:
       - "${MLFLOW_ARTIFACTS_URI?Variable not set}:${MLFLOW_ARTIFACTS_URI?Variable not set}"
     # infinite loop
