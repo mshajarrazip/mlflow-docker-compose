@@ -16,3 +16,7 @@ with mlflow.start_run():
     input_example = iris_train.iloc[[0]]
     # The signature is automatically inferred from the input example and its predicted output.
     mlflow.sklearn.log_model(clf, "iris_rf", input_example=input_example)
+    mlflow.sklearn.log_model(clf, "iris_rf2", input_example=input_example)
+    mlflow.sklearn.log_model(clf, "iris_rf3", input_example=input_example)
+    mlflow.sklearn.log_model(clf, "iris_rf4", input_example=input_example)
+    mlflow.sklearn.log_model(clf, "iris_rf5", input_example=input_example)
