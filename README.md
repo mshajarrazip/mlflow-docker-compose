@@ -56,11 +56,6 @@ docker-compose -f docker-compose.yml up -d --build
     ```
     smb://172.16.200.100/sambashare
     ```
-    with the following permissions:
-    ```
-    $ ls -l /srv
-    drwxr-xr-x 3 samba samba 4096 Ogos  2 15:14 samba  
-    ```
 2. Say we are running the MLFlow tracking server at `172.16.200.100`, or we are accessing
    tracking server from anywhere else, then we need the same folder to exist everywhere,
    mounted to the same sambashare. See how to do this [here](https://chrisrmiller.com/mount-samba-share-in-ubuntu/).
