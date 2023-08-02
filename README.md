@@ -52,7 +52,7 @@ docker-compose -f docker-compose.yml up -d --build
 > See [this](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
 > on how to set up a sambashare server
 
-1. Assume that there is a sambashare folder `/src/samba/share` accessible as follows:
+1. Assume that there is a sambashare folder `/srv/samba/share` accessible as follows:
     ```
     smb://172.16.200.100/sambashare
     ```
@@ -65,7 +65,8 @@ docker-compose -f docker-compose.yml up -d --build
    tracking server from anywhere else, then we need the same folder to exist everywhere,
    mounted to the same sambashare. See how to do this [here](https://chrisrmiller.com/mount-samba-share-in-ubuntu/).
 
-3. Then we can set `MLFLOW_ARTIFACTS_URI=/src/samba/share`, and `docker-compose up` as usual.
+3. Then we can set `MLFLOW_ARTIFACTS_URI=/src/samba/share/mlruns/artifacts`, and `docker-compose up` as usual.
+
 
 ## Additional Notes
 
