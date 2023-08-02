@@ -20,7 +20,7 @@ need to appropriately set the permissions.
 > are different, then the client will end up assuming that the container-relative paths are available
 > on the host, which will cause permission errors.
 
-### MSSQL Server as Backend URI (Currently on Main)
+### MSSQL Server as Backend URI
 
 To spin up an mssql container and have the backend URI point to the `mlflow` database on this server do:
 
@@ -44,8 +44,24 @@ with the following configurations:
 If you don't want to spin up the mssql container and want a customized backend URI, set the variable `MLFLOW_BACKEND_URI`, then:
 
 ```
-docker-compose up -d --build -f docker-compose.yml
+docker-compose -f docker-compose.yml up -d --build 
 ```
+
+#### Tip: Set MLFLOW_ARTIFACTS_URI to a Sambashare folder
+
+> See [this](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
+> on how to set up a sambashare server
+
+1. Assume that there is a sambashare folder `/srv/samba/share` accessible as follows:
+    ```
+    smb://172.16.200.100/sambashare
+    ```
+2. Say we are running the MLFlow tracking server at `172.16.200.100`, or we are accessing
+   tracking server from anywhere else, then we need the same folder to exist everywhere,
+   mounted to the same sambashare. See how to do this [here](https://chrisrmiller.com/mount-samba-share-in-ubuntu/).
+
+3. Then we can set `MLFLOW_ARTIFACTS_URI=/src/samba/share/mlruns/artifacts`, and `docker-compose up` as usual.
+
 
 ## Additional Notes
 
@@ -61,3 +77,5 @@ a database-backed backend, you may also try the model registry.
 1. [sachua/mlflow-docker-compose](https://github.com/sachua/mlflow-docker-compose)
 2. [mlflow/mlfow/issues#989](https://github.com/mlflow/mlflow/issues/989#issuecomment-473491268)
 3. [MLFLow Tracking Guide](https://www.mlflow.org/docs/latest/tracking.html#storage)
+4. [install-and-configure-samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
+5. [Mount Samba Share in Linux](https://chrisrmiller.com/mount-samba-share-in-ubuntu/)
