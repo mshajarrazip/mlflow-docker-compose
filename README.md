@@ -62,7 +62,10 @@ docker-compose -f docker-compose.yml up -d --build
 
 3. Then we can set `MLFLOW_ARTIFACTS_URI=/src/samba/share/mlruns/artifacts`, and `docker-compose up` as usual.
 
+## Scenario 4: MLFLow with Remote Tracking Server, Backend and Artifacts Store
 
+1. Set up the nfs server by following [this tutorial](https://linuxconfig.org/how-to-configure-nfs-on-linux).
+   https://www.cyberciti.biz/faq/apple-mac-osx-nfs-mount-command-tutorial/
 ## Additional Notes
 
 1. After setting up the server, feel free to test it by using the [MLProject sample](mlproject-sample). If you are using
@@ -79,3 +82,4 @@ a database-backed backend, you may also try the model registry.
 3. [MLFLow Tracking Guide](https://www.mlflow.org/docs/latest/tracking.html#storage)
 4. [install-and-configure-samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
 5. [Mount Samba Share in Linux](https://chrisrmiller.com/mount-samba-share-in-ubuntu/)
+6. [Configuring NFS on Linux](https://linuxconfig.org/how-to-configure-nfs-on-linux)
