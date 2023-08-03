@@ -20,6 +20,8 @@ need to appropriately set the permissions.
 > are different, then the client will end up assuming that the container-relative paths are available
 > on the host, which will cause permission errors.
 
+## Scenario 4: MLFLow with Remote Tracking Server, Backend and Artifacts Store
+
 ### MSSQL Server as Backend URI
 
 To spin up an mssql container and have the backend URI point to the `mlflow` database on this server do:
@@ -47,22 +49,31 @@ If you don't want to spin up the mssql container and want a customized backend U
 docker-compose -f docker-compose.yml up -d --build 
 ```
 
-#### Tip: Set MLFLOW_ARTIFACTS_URI to a Sambashare folder
+### NFS server (running on-prem) as Artifact Store
 
-> See [this](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
-> on how to set up a sambashare server
+1. Follow [this tutorial](https://linuxconfig.org/how-to-configure-nfs-on-linux) to configure nfs on Linux.
+    - Summary of steps:
+    
+    - Tips:
+        - On configuring `/etc/exports`:
+            - How to get the IP address?
+                - Use `traceroute` (get the first IP listed)
+                - Use `ifconfig` and check the IP address of the interface (e.g. for mac, the wireless interface may be like `tun0`) 
+                - More convenient to set a range if the IP is not static (e.g. if behind a VPN - for IP `10.32.26.23`, do `10.32.26.0/24`)
+        - How to get permissions right?
+            - Use `chmod -R ugo=rwx /path/to/folder` to set permissions for the folder
+        - On the host, run `statd` (see [this](https://superuser.com/questions/657071/mount-nfs-rpc-statd-is-not-running-but-is-required-for-remote-locking)):
+            ```
+            systemctl start rpc-statd
+            ```
 
-1. Assume that there is a sambashare folder `/srv/samba/share` accessible as follows:
-    ```
-    smb://172.16.200.100/sambashare
-    ```
-2. Say we are running the MLFlow tracking server at `172.16.200.100`, or we are accessing
-   tracking server from anywhere else, then we need the same folder to exist everywhere,
-   mounted to the same sambashare. See how to do this [here](https://chrisrmiller.com/mount-samba-share-in-ubuntu/).
+2. Mounting on the client:
+    - Mac OS:
+        - Follow [this tutorial](https://www.cyberciti.biz/faq/apple-mac-osx-nfs-mount-command-tutorial/)
+        - Make sure to set `-o resvport` in the mount command
+        - On the host, make sure to 
 
-3. Then we can set `MLFLOW_ARTIFACTS_URI=/src/samba/share/mlruns/artifacts`, and `docker-compose up` as usual.
-
-
+   
 ## Additional Notes
 
 1. After setting up the server, feel free to test it by using the [MLProject sample](mlproject-sample). If you are using
@@ -79,3 +90,4 @@ a database-backed backend, you may also try the model registry.
 3. [MLFLow Tracking Guide](https://www.mlflow.org/docs/latest/tracking.html#storage)
 4. [install-and-configure-samba](https://ubuntu.com/tutorials/install-and-configure-samba#1-overview)
 5. [Mount Samba Share in Linux](https://chrisrmiller.com/mount-samba-share-in-ubuntu/)
+6. [Configuring NFS on Linux](https://linuxconfig.org/how-to-configure-nfs-on-linux)
