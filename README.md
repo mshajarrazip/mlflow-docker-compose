@@ -64,8 +64,25 @@ docker-compose -f docker-compose.yml up -d --build
 
 ## Scenario 4: MLFLow with Remote Tracking Server, Backend and Artifacts Store
 
-1. Set up the nfs server by following [this tutorial](https://linuxconfig.org/how-to-configure-nfs-on-linux).
-   https://www.cyberciti.biz/faq/apple-mac-osx-nfs-mount-command-tutorial/
+### Set Up the NFS server on the host
+
+1. Follow [this tutorial](https://linuxconfig.org/how-to-configure-nfs-on-linux).
+    - Tips on configuring on [/etc/exports]:
+        - How to get the IP address?
+            - If the client is on a VPN, then use `traceroute` (get the first IP listed).
+            You can also set a range e.g. `10.32.26.0/24`
+    - How to get permissions right?
+        - Use `chmod -R ugo=rwx /path/to/folder` to set permissions for the folder.
+2. Mounting on the client:
+    - Mac OS:
+        - Follow [this tutorial](https://www.cyberciti.biz/faq/apple-mac-osx-nfs-mount-command-tutorial/)
+        - Make sure to set `-o resvport` in the mount command
+        - On the host, make sure to run statd (see [this](https://superuser.com/questions/657071/mount-nfs-rpc-statd-is-not-running-but-is-required-for-remote-locking)):
+            ```
+            systemctl start rpc-statd
+            ```
+
+   
 ## Additional Notes
 
 1. After setting up the server, feel free to test it by using the [MLProject sample](mlproject-sample). If you are using
